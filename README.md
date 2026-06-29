@@ -42,7 +42,3 @@ It was designed to simulate a realistic e-commerce experience while focusing on 
 ## API Testing
 
 Backend APIs were tested using Insomnia Advanced REST Client (ARC) to verify requests, responses, and authentication flows.
-
-## Project Context
-
-This is a university project created for learning purposes and for applying the MERN stack in a practical e-commerce case study.
