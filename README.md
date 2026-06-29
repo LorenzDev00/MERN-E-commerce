@@ -4,6 +4,8 @@ This project is a university assignment developed to practice and combine the ma
 
 The goal was not only to build a functional online store, but also to apply frontend and backend concepts in a structured full-stack application.
 
+![image](https://user-images.githubusercontent.com/95931734/226047330-b01b67be-2b54-4235-9edb-3cbed9e527f8.png)
+
 ## Overview
 
 The application includes product browsing, shopping cart management, user authentication, and order-related flows.  
