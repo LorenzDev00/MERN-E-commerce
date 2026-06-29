@@ -1,0 +1,200 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+section {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.adj {
+  height: 30rem;
+  object-fit: cover;
+  filter: brightness(50%);
+}
+
+/* BRANDS BANNER SECTION */
+
+.brand-section>Col {
+  background-color: #FF7755;
+}
+
+.brand-section img {
+  width: 5rem;
+  padding: 0.1rem;
+}
+
+.brand-section h3 {
+  text-align: center;
+}
+
+/* CATEGORY DESCRIPTION SECTION */
+
+.Section2image h5 {
+  background-color: #FF7755;
+  padding: 5px;
+}
+
+.Section2image {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.Section2image img {
+  width: 100%;
+}
+
+footer {
+  background: #0E2C4B;
+  color: #FF7755;
+}
+
+.AddToCart Button {
+  background: #FF7755;
+}
+
+.priceNumber {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #0E2C4B;
+}
+
+.priceNumber1 {
+  margin-bottom: -0.2rem;
+}
+
+.img-large {
+  width: 25rem;
+}
+
+.ShopNowbg {
+  background-image: url("./images/bg-shop.png");
+  height: 15rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/* - - - DEFAULT SCREEN - - - */
+
+.ShopNowbg h5 Button {
+  text-align: center;
+}
+
+.txt-color {
+  color: #0E2C4B;
+}
+
+.btn-color {
+  background-color: #FF7755 !important;
+  border: #FF7755 !important;
+}
+
+.img-thumbnail {
+  width: 80px;
+}
+
+.emptyBox {
+  width: 8rem;
+}
+
+.SignInBtn {
+  background-color: #FF7755;
+}
+
+.heading {
+  background-color: #FF7755;
+
+}
+
+.search{
+  background-color:#FF7755; 
+}
+
+.checkout-steps>div {
+  border-bottom: 0.2rem solid #a0a0a0;
+  color: #a0a0a0;
+}
+
+.checkout-steps>div.active {
+  border-bottom: 0.2rem solid #FF7755;
+  color: #FF7755;
+}
+
+.imageSection {
+  color: #0E2C4B;
+}
+
+.imageDec {
+  border-top: 8px;
+  border-top-style: solid;
+  border-top-color: #7b2cbf;
+
+  border-left: 8px;
+  border-left-style: solid;
+  border-left-color: #d90429;
+
+  border-right: 8px;
+  border-right-style: solid;
+  border-right-color: #ffc300;
+
+  border-bottom: 8px;
+  border-bottom-style: solid;
+  border-bottom-color: #aacc00;
+}
+
+.imageSection1 {
+  color: #0E2C4B;
+  background-color: #fdfdfe;
+  opacity: 1;
+  background-image: radial-gradient(#FF7755 0.7000000000000001px, #fdfdfe 0.7000000000000001px);
+  background-size: 14px 14px;
+
+}
+
+.green {
+  background-image: url("./images/magicpattern-mesh-gradient-1677944873113.png");
+  background-size: cover;
+  color: white;
+}
+
+.Offcanvas {
+  list-style-type: none;
+}
