@@ -7,6 +7,7 @@ import swim from "../images/swim.jpg";
 import img1 from "../images/Img1.png";
 import img2 from "../images/Img2.png";
 
+// Homepage section with customer testimonials and upcoming product previews
 function ImagesScreen() {
     return (
       <div>
