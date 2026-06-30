@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom'
 
-
+// Product card used in product listing grids; links to the product detail page
 const Product = ({ product }) => (
 
   <Col xs={11} md={6} lg={3} key={product.id}>
