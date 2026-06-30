@@ -5,6 +5,7 @@ import hiking from '../images/hiking.jpg';
 import running from '../images/running.jpg';
 import swimming from '../images/swimming.jpg';
 
+// Homepage hero carousel cycling through the main product categories
 function ControlledCarousel() {
   const [index, setIndex] = useState(0);
 
@@ -19,7 +20,6 @@ function ControlledCarousel() {
         <img
           className="d-block w-100 adj"
           src={running}
-        //   src="holder.js/800x400?text=First slide&bg=373940"
           alt="First slide"
           />
         </Container>
