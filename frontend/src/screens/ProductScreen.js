@@ -3,7 +3,6 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-// Bootstrap 
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
@@ -15,17 +14,15 @@ import Alert from 'react-bootstrap/Alert';
 
 import { Store } from './Store';
 
-
+// Single product detail page with add-to-cart and stock check
 function ProductSreen() {
-    // Importing the 'useNavigate' and 'useParams' hooks from React Router
     const navigate = useNavigate();
     const params = useParams();
     const { slug } = params;
 
-    // Declaring a state variable called 'product' and initializing it as an empty array using the 'useState' hook
     const [product, setProduct] = useState([]);
 
-    // Creating a side effect that triggers a fetch request when the 'slug' parameter changes and updates the 'product' state variable with the response data
+    // Fetch the product matching the URL slug
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios.get(`/productsList/api/products/slug/${slug}`);
@@ -34,26 +31,21 @@ function ProductSreen() {
         fetchData();
     }, [slug])
 
-    // Accessing the 'cart' state variable from the global Store context using the 'useContext' hook and destructuring the 'cart' property
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart } = state;
 
-    // Creating a function that adds a product to the cart
+    // Re-checks stock availability before adding the product to the cart
     const addToCartHandler = async () => {
-        // Checking if the product already exists in the cart and updating the quantity accordingly
         const existItem = cart.cartItems.find((x) => x._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1;
 
-        // Fetching the full product details from the server to check if it's in stock
         const { data } = await axios.get(`/productsList/api/products/${product._id}`);
 
-        // Checking if the product is in stock and displaying an error message if not
         if (data.countInStock < quantity) {
             window.alert('Sorry, the product is out of stock');
             return;
         }
 
-        // Dispatching an action to add the product to the cart in the global Store context and navigating to the cart page
         ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } });
         navigate('/cart');
     };
