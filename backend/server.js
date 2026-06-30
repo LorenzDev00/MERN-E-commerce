@@ -7,10 +7,9 @@ import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
-// Load environment variables
 dotenv.config();
 
-// Connect to MongoDB database
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('connected to database');
@@ -19,40 +18,31 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(err.message)
     })
 
-// Create an express application
 const app = express();
 
-// Parse incoming requests with JSON payloads
 app.use(express.json());
-// Parse incoming requests with urlencoded payloads
 app.use(express.urlencoded({ extended: true }));
 
-// Handle requests for PayPal API keys
+// Exposes the PayPal client ID to the frontend
 app.use('/api/keys/paypal', (req, res) => {
     res.send(process.env.PAYPAL_CLIENT_ID);
 });
 
-// Handle requests for seeding data into database (commented out)
+// Disabled in production: only used to seed the database with initial data
 //app.use('/api/seed', seedRouter);
 
-// Handle requests for product data
+// Route groups
 app.use('/productsList', productRouter);
-
-// Handle requests for user data
 app.use('/api/users', userRouter);
-
-// Handle requests for order data
 app.use('/api/orders', orderRouter);
 
-// Error handling middleware
+// Global error handler
 app.use((err, req, res, next) => {
     res.status(500).send({ message: err.message });
 })
 
-// Set the port for the server to listen on
 const port = process.env.PORT || 5000;
 
-// Start the server
 app.listen(port, () => {
     console.log(`server at http://localhost:${port}`)
 })
