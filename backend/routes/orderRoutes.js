@@ -2,13 +2,13 @@ import express from 'express';
 import Order from '../models/orderModel.js';
 import expressAsyncHandler from'express-async-handler';
 import { isAuth, isAdmin } from '../utils.js';
-// Create an instance of the Express router
+
 const orderRouter = express.Router();
 
-// Define a POST route for creating a new order
+// POST /api/orders - create a new order for the authenticated user
 orderRouter.post('/', isAuth, expressAsyncHandler(async (req,res) => {
-    // Create a new order object based on the request body
     const newOrder = new Order({
+        // Map each cart item's _id to the "product" field expected by the schema
         orderItems: req.body.orderItems.map((x) => ({...x, product: x._id})),
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
@@ -19,28 +19,25 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req,res) => {
         user: req.user._id,
     });
 
-    // Save the new order to the database and send a response
     const order = await newOrder.save();
     res.status(201).send({ message: 'New Order Created', order});
 }))
 
-// Define a GET route for retrieving the current user's orders
+// GET /api/orders/mine - get all orders belonging to the authenticated user
 orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req,res) => {
-    // Find all orders associated with the current user and send a response
     const orders = await Order.find({ user: req.user._id });
     res.send(orders)
   })
 )
 
-// Define a GET route for retrieving a specific order by ID
+// GET /api/orders/:id - get a single order by id
 orderRouter.get(
     '/:id',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-      // Find the order with the specified ID and send a response
       const order = await Order.findById(req.params.id);
       if (order) {
         res.send(order);
@@ -50,15 +47,13 @@ orderRouter.get(
     })
   );
 
-// Define a PUT route for updating an order's payment status
+// PUT /api/orders/:id/pay - mark an order as paid
 orderRouter.put(
     '/:id/pay',
     isAuth,
     expressAsyncHandler(async (req,res) => {
-        // Find the order with the specified ID
         const order = await Order.findById(req.params.id);
     if(order){
-        // Update the order's payment information and save it to the database
         order.isPaid = true; 
         order.paidAt = Date.now();
         order.paymentResult = {
@@ -76,12 +71,11 @@ orderRouter.put(
     })
 )
 
-// Define a PUT route for updating an order's delivery status
+// PUT /api/orders/:id/deliver - mark an order as delivered
 orderRouter.put(
   '/:id/deliver',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    // Find the order with the specified ID
     const order = await Order.findById(req.params.id);
     if (order) {
       order.isDelivered = true;
@@ -94,6 +88,7 @@ orderRouter.put(
   })
 );
 
+// GET /api/orders - list all orders, with the buyer's name populated (admin only)
 orderRouter.get(
   '/',
   isAuth,
@@ -103,4 +98,4 @@ orderRouter.get(
     res.send(orders);
   })
 );
-export default orderRouter; 
+export default orderRouter;
