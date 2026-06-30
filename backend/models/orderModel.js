@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Schema representing a customer order, including items, shipping and payment info
 const orderSchema = new mongoose.Schema (
     {
         orderItems: [
@@ -47,4 +48,4 @@ const orderSchema = new mongoose.Schema (
 );
 
 const Order = mongoose.model('Order', orderSchema);
-export default Order; 
+export default Order;
