@@ -2,6 +2,7 @@ import React from "react";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 
+// Progress indicator for the checkout flow; highlights completed steps based on props
 export default function CheckOutSteps(props) {
     return (
         <Row className="checkout-steps">
