@@ -2,7 +2,6 @@ import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Store } from './Store';
-import { Tab } from 'bootstrap';
 import Table from 'react-bootstrap/esm/Table';
 
 const reducer = (state, action) => {
@@ -23,41 +22,34 @@ const reducer = (state, action) => {
     }
 };
 
+// Admin screen listing all registered users
 export default function UserListScreen() {
-// Define state and dispatch using the useReducer hook and initial state
-const [{ loading, error, users }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-});
+    const [{ loading, error, users }, dispatch] = useReducer(reducer, {
+        loading: true,
+        error: '',
+    });
 
-// Retrieve user information from the global state using the useContext hook
-const { state } = useContext(Store);
-const { userInfo } = state;
+    const { state } = useContext(Store);
+    const { userInfo } = state;
 
-// Use the useEffect hook to fetch user data when the component mounts or when the user information changes
-useEffect(() => {
-    const fetchData = async () => {
-        try {
-            // Dispatch an action to indicate that data is being fetched
-            dispatch({ type: 'FETCH_REQUEST' });
-
-            // Fetch user data from the server
-            const { data } = await axios.get(`/api/users`, {
-                headers: { Authorization: `Bearer ${userInfo.token}` },
-            });
-
-            // Dispatch an action to update the state with the fetched data
-            dispatch({ type: 'FETCH_SUCCESS', payload: data });
-        } catch (err) {
-            // Dispatch an action to indicate that fetching data failed
-            dispatch({
-                type: 'FETCH_FAIL',
-                payload: err,
-            });
-        }
-    };
-    fetchData();
-}, [userInfo]); // Only refetch user data if the user information changes
+    // Fetch all users (admin-only endpoint)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                dispatch({ type: 'FETCH_REQUEST' });
+                const { data } = await axios.get(`/api/users`, {
+                    headers: { Authorization: `Bearer ${userInfo.token}` },
+                });
+                dispatch({ type: 'FETCH_SUCCESS', payload: data });
+            } catch (err) {
+                dispatch({
+                    type: 'FETCH_FAIL',
+                    payload: err,
+                });
+            }
+        };
+        fetchData();
+    }, [userInfo]);
 
 
     return (
