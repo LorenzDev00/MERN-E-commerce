@@ -21,6 +21,7 @@ const reducer = (state, action) => {
     }
 };
 
+// Lets the authenticated user view and update their profile data
 export default function ProfileScreen() {
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -36,49 +37,10 @@ export default function ProfileScreen() {
         loadingUpdate: false,
     });
 
-
+    // Submits the updated profile data and refreshes the stored user/token on success
     const submitHandler = async (e) => {
-        // Destructure the loadingUpdate state variable and dispatch function from the useReducer hook, and set the initial value of loadingUpdate to false
         e.preventDefault();
-        const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
-            loadingUpdate: false,
-        });
-        
-        // Define the submitHandler function, which is called when the form is submitted
-        const submitHandler = async (e) => {
-            e.preventDefault(); // Prevent the default form submission behavior
-        
-            try {
-                // Make a PUT request to update the user profile data, passing in the name, surname, email, and password as data and the user's authorization token as a header
-                const { data } = await axios.put(
-                    '/api/users/profile',
-                    {
-                        name,
-                        surname,
-                        email,
-                        password,
-                    },
-                    {
-                        headers: { Authorization: `Bearer ${userInfo.token}` },
-                    }
-                );
-        
-                // If the request is successful, dispatch an UPDATE_SUCCESS action to the reducer, update the user info in the context using ctxDispatch, save the updated user info to local storage, and display a success message to the user
-                dispatch({
-                    type: 'UPDATE_SUCCESS',
-                });
-                ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-                localStorage.setItem('userInfo', JSON.stringify(data));
-                alert('User updated successfully');
-            } catch (err) {
-                // If there is an error, dispatch a FETCH_FAIL action to the reducer and display an error message to the user
-                dispatch({
-                    type: 'FETCH_FAIL',
-                });
-                alert(err);
-            }
-        }
-        
+
         try {
             const { data } = await axios.put(
                 '/api/users/profile',
