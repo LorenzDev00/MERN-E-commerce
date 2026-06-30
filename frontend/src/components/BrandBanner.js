@@ -2,7 +2,6 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 
 import adidas from '../icons/adidas.svg'
 import nike from '../icons/nike.svg'
@@ -10,7 +9,7 @@ import puma from '../icons/puma.svg'
 import thenorthface from '../icons/thenorthface.svg'
 import underarmour from '../icons/underarmour.svg'
 
-
+// Static banner showcasing partner/trending brand logos
 function BrandBanner() {
     return(
         <Container className="brand-section">
