@@ -1,37 +1,26 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Dropdown from 'react-bootstrap/Dropdown';
 import React from 'react';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Product from '../components/Product';
 import Container from 'react-bootstrap/esm/Container';
 import Button from "react-bootstrap/Button";
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
-import SearchBox from '../components/SearchBox';
 
-// import data from '../data';
-
+// Product listing page with category filter buttons (All / Running / Hiking / Swimming)
 function HomeScreen() {
-    const [searchQuery, setSearchQuery] = useState('');
-
     const [products, setProducts] = useState([]);
+
+    // Fetch all products on mount
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios.get('productsList/api/products');
-
             setProducts(res.data);
         };
         fetchData();
     }, [])
 
     const [selectedCategory, setSelectedCategory] = useState("all");
-
-    
 
     const filteredCardData = products.filter(
         (card) => selectedCategory === "all" || card.category === selectedCategory 
@@ -53,16 +42,11 @@ function HomeScreen() {
 
             </Row>
 
-            {
-
-                <Row>
-                    {filteredCardData.map(product => (
-                        <Product key={product.slug} product={product} />
-                    ))}
-                </Row>
-
-            }
-
+            <Row>
+                {filteredCardData.map(product => (
+                    <Product key={product.slug} product={product} />
+                ))}
+            </Row>
 
         </Container>
     );
