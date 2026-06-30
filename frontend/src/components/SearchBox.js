@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 
-
+// Search bar: navigates to the search results page with the query as a URL param
 export default function SearchBox() {
 
     const [searchQuery, setSearchQuery] = useState(" ");
@@ -11,25 +11,6 @@ export default function SearchBox() {
     const handleInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
-
-    // function handleInputChange(event) {
-    //     setInputValue(event.target.value);
-    // }
-
-    // function handleSubmit(event) {
-    //     event.preventDefault();
-    //     props.onSubmit(inputValue);
-    // }
-
-
-    // const navigate = useNavigate();
-    // const [selectedCategory1, setSelectedCategory1] = useState("swimming");
-    // const submitHandler = (e) => {
-    //     e.preventDefault();
-    //     navigate('/productList');
-    //     state: selectedCategory1;
-    // };
-
 
     return (
         <Form className='d-flex'>
