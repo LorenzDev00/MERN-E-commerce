@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Schema representing a product available in the store
 const productSchema = new mongoose.Schema(
     {
         productName: { type: String, required: true, unique: true},
@@ -12,10 +13,10 @@ const productSchema = new mongoose.Schema(
         description: { type: String, required: true },
     },
     {
-        timestamps: true // for update and creation info
+        timestamps: true
     }
 );
 
 const Product = mongoose.model('Product', productSchema);
 
-export default Product; 
+export default Product;
