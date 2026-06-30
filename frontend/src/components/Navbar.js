@@ -15,10 +15,12 @@ import { Link } from 'react-router-dom';
 import { Store } from '../screens/Store';
 import Logo from '../images/BuzzPitLogo.jpg';
 
+// Top navigation bar: logo, search, cart, and conditional auth/admin menus
 function NavScrollExample() {
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
 
+    // Logs the user out and clears persisted session data from localStorage
     function signoutHandler() {
         ctxDispatch({ type: 'USER_SIGNOUT' });
         localStorage.removeItem('userInfo');
@@ -52,6 +54,7 @@ function NavScrollExample() {
                     </Nav>
                     <Nav className="ml-auto">
                         {
+                            // Admin-only dropdown, shown only to authenticated admins
                             userInfo && userInfo.isAdmin && (
                                 <NavDropdown title="Admin" id="admin-nav-dropdown">
                                     <NavDropdown.Item>
@@ -70,6 +73,7 @@ function NavScrollExample() {
                     <Nav className="ml-auto">
 
                         {
+                            // Show user menu if logged in, otherwise show sign-in link
                             userInfo ? (
 
                                 <NavDropdown title={userInfo.name} id="navbarScrollingDropdown">
