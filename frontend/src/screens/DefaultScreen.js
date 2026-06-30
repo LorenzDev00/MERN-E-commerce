@@ -6,6 +6,7 @@ import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
 
+// Public homepage layout: hero carousel, brand banner, CTA, and customer stories
 function DeafultScreen() {
     return (
         <div>
