@@ -11,48 +11,36 @@ import Card from 'react-bootstrap/Card';
 import axios from "axios";
 import emptyBox from '../images/empty-box.png';
 
-
+// Shopping cart: quantity management, item removal, and checkout entry point
 function CartScreen() { 
-// Destructure state and dispatch from the global Store context using useContext hook
-const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const navigate = useNavigate();
 
-// Use the useNavigate hook to get access to the navigation object
-const navigate = useNavigate();
+    const {
+        cart: { cartItems },
+    } = state;
 
-// Destructure the cartItems array from the cart object in the state
-const {
-    cart: { cartItems },
-} = state;
+    // Updates an item's quantity after re-checking stock availability
+    const updateCartHandler = async (item, quantity) => {
+        const { data } = await axios.get(`/productsList/api/products/${item._id}`);
 
-// Define an async function to update the cart with a new item and its quantity
-const updateCartHandler = async (item, quantity) => {
-    // Send a GET request to the backend to retrieve the updated product data
-    const { data } = await axios.get(`/productsList/api/products/${item._id}`);
+        if (data.countInStock < quantity) {
+            window.alert('Sorry, the product is out of stock');
+            return;
+        }
 
-    // Check if the requested quantity is greater than the available stock
-    if (data.countInStock < quantity) {
-        // Display an alert message to the user indicating the product is out of stock
-        window.alert('Sorry, the product is out of stock');
-        return;
+        ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
     }
 
-    // Dispatch an action to add the item and its quantity to the cart in the global state
-    ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
-}
+    const removeItemHandler = (item) => {
+        ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+    }
 
-// Define a function to remove an item from the cart in the global state
-const removeItemHandler = (item) => {
-    ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
-}
+    // Sends the user to sign in, then on to the shipping step
+    function checkOutHandler() {
+        navigate('/signin?redirect=/shipping')
+    }
 
-// Define a function to handle the checkout process
-function checkOutHandler() {
-    // Redirect the user to the sign-in page with a redirect URL to the shipping page
-    navigate('/signin?redirect=/shipping')
-}
-
-    
-    
     return (
         <div>
             <h1>Your Shopping Cart</h1>
@@ -75,20 +63,18 @@ function checkOutHandler() {
                             <div className="d-flex justify-content-space-around">
                                 <Col md={8}>
 
-                                    {/* Prodoct details: img, quantity, remove */}
+                                    {/* Product details: image, quantity, remove */}
                                     <ListGroup>
                                         {
                                             cartItems.map((item) => (
                                                 <ListGroup.Item key={item._id}>
                                                     <Row className="align-items-center">
 
-                                                        {/* Product image section */}
                                                         <Col md={4}>
                                                             <img src={item.image} alt={item.productName} className="img-fluid rounded img-thumbnail"></img>{' '}
                                                             <Link to={`/product/${item.slug}`}>{item.productName}</Link>
                                                         </Col>
 
-                                                        {/* Quantitiy managment section */}
                                                         <Col md={3}>
                                                             <Button variant="light" disabled={item.quantity === item.countInStock} onClick={() => updateCartHandler(item, item.quantity + 1)}>
                                                                 <i className="fa-solid fa-plus"></i>
@@ -99,7 +85,6 @@ function checkOutHandler() {
                                                             </Button>{' '}
                                                         </Col>
 
-                                                        {/* Remove product section */}
                                                         <Col md={3}><strong>{item.price}€</strong></Col>
                                                         <Col md={2}>
                                                             <Button variant="light" onClick={() => removeItemHandler(item)}>
@@ -113,7 +98,7 @@ function checkOutHandler() {
                                     </ListGroup>
                                 </Col>
 
-                                {/* Purchase details: total items, total price, checkout */}
+                                {/* Purchase summary: total items, total price, checkout */}
                                 <Col md={3}>
                                     <Card>
                                         <Card.Body>
@@ -144,4 +129,4 @@ function checkOutHandler() {
 
 }        
 
-export default CartScreen; 
+export default CartScreen;
