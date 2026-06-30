@@ -1,6 +1,4 @@
-// These are static data not coming from the DB
-// Used for testing purposes 
-
+// Static seed data used to populate the database for testing/demo purposes
 import bcrypt from 'bcryptjs';
 
 const data = {
@@ -22,7 +20,6 @@ const data = {
     ],
     products: [
         {
-            //_id: 1,
             productName: 'Nike Dryfit Tshirt',
             slug: 'nike-tshirt',
             category: 'running',
@@ -33,7 +30,6 @@ const data = {
             description: 'high quality tshirt'
         },
         {
-            //_id: 2,
             productName: 'Puma Move Tshirt',
             slug: 'puma-tshirt',
             category: 'running',
@@ -44,7 +40,6 @@ const data = {
             description: 'high quality tshirt'
         },
         {
-            //_id: 3,
             productName: 'Underarmour Skin Tshirt',
             slug: 'underarmour-tshirt',
             category: 'running',
@@ -55,7 +50,6 @@ const data = {
             description: 'high quality tshirt'
         },
         {
-            //_id: 4,
             productName: 'Adidas Running Tshirt',
             slug: 'adidas-tshirt',
             category: 'running',
