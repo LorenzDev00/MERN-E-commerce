@@ -9,59 +9,44 @@ import axios from 'axios';
 import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
 
-// Define a reducer function that handles state updates based on dispatched actions
 const reducer = (state, action) => {
     switch (action.type) {
-        // When a FETCH_REQUEST action is dispatched, set the 'loading' property to true
         case 'FETCH_REQUEST':
             return { ...state, loading: true };
-        // When a FETCH_SUCCESS action is dispatched, set the 'orders' property to the action payload and set 'loading' to false
         case 'FETCH_SUCCESS':
             return { ...state, orders: action.payload, loading: false };
-        // When a FETCH_FAIL action is dispatched, set the 'error' property to the action payload and set 'loading' to false
         case 'FETCH_FAIL':
             return { ...state, loading: false, error: action.payload };
-        // If an unknown action type is dispatched, simply return the current state
         default:
             return state;
     }
 }
 
-// Define a functional component called OrderHistoryScreen
+// Lists the orders placed by the currently authenticated user
 export default function OrderHistoryScreen() {
-    // Use the useContext hook to retrieve state from a context provider
     const { state } = useContext(Store);
     const { userInfo } = state;
     const navigate = useNavigate();
 
-    // Use the useReducer hook to manage state with the reducer function defined above
-    // Initialize state with a 'loading' property set to true and an empty 'error' property
     const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',
     });
 
-    // Use the useEffect hook to perform a side effect, fetching data from an API endpoint
-    // The effect will be triggered whenever the 'userInfo' property changes
+    // Fetch the authenticated user's own orders
     useEffect(() => {
-        // Define an asynchronous function to fetch data from the API
         const fetchData = async () => {
-            // Dispatch a FETCH_REQUEST action to indicate that the fetch operation has started
             dispatch({ type: 'FETCH_REQUEST' });
             try {
-                // Use the axios library to make an HTTP GET request to an API endpoint, passing the user's auth token in the request headers
                 const { data } = await axios.get(
                     `/api/orders/mine`,
                     { headers: { Authorization: `Bearer ${userInfo.token}` } }
                 );
-                // If the request is successful, dispatch a FETCH_SUCCESS action with the fetched data as the payload
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
             } catch (error) {
-                // If the request fails, dispatch a FETCH_FAIL action with the error object as the payload
                 dispatch({ type: 'FETCH_FAIL', payload: error });
             }
         };
-        // Call the fetchData function to initiate the fetch operation
         fetchData();
     }, [userInfo]);
 
