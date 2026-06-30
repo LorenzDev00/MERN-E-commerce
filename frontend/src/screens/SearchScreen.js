@@ -5,9 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Product from "../components/Product";
-
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -27,7 +25,7 @@ const reducer = (state, action) => {
     }
 }
 
-
+// Product search/filter screen with category sidebar (categories list is currently never populated)
 export default function SearchScreen() {
 
     const navigate = useNavigate();
@@ -44,18 +42,7 @@ export default function SearchScreen() {
 
     const [categories, setCategories] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchCategories = async () => {
-    //         try {
-    //             const { data } = await axios.get(`productsList/api/products/categories`);
-    //             setCategories(data);
-    //         } catch (err) {
-    //             alert("Errore 2 " + err);
-    //         }
-    //     };
-    //     fetchCategories();
-    // }, [dispatch]);
-
+    // Fetch products filtered by the selected category
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -75,6 +62,7 @@ export default function SearchScreen() {
         fetchData();
     }, [category, error, query])
 
+    // Builds the URL for a given category filter
     const getFilterUrl = (filter, skipPathname) => {
         const filterCategory = filter.category || category;
         return `${skipPathname ? '' : '/search?'
@@ -120,17 +108,6 @@ export default function SearchScreen() {
                                 <Col md={6}>
                                     <div>
                                         prova
-                                        {/* {countProducts === 0 ? 'No' : countProducts} Results
-                                        {query !== 'all' && ' : ' + query}
-                                        {category !== 'all' && ' : ' + category}
-                                        {category !== 'all' ? (
-                                            <Button
-                                                variant="light"
-                                                onClick={() => navigate('/search')}
-                                            >
-                                                <i className="fas fa-times-circle"></i>
-                                            </Button>
-                                        ) : null} */}
                                     </div>
                                 </Col>
                                 <Row>
