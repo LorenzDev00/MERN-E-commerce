@@ -8,20 +8,14 @@ import Container from "react-bootstrap/esm/Container";
 import { useLocation } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
+// Search results page driven by the navbar search box; filters fetched products by category keyword
 export default function SearchProducts() {
-    // Import the useLocation hook from the react-router-dom library
     const location = useLocation();
-
-    // Create a new instance of URLSearchParams using the search string from the current URL
     const searchParams = new URLSearchParams(location.search);
-
-    // Get the value of the "query" parameter from the searchParams object
     const query = searchParams.get("query");
 
-    // Define a state variable called "products" and a function to update it called "setProducts"
     const [products, setProducts] = useState([]);
 
-    // Use the useEffect hook to fetch data from the API and update the "products" state variable
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios.get('productsList/api/products');
@@ -30,11 +24,10 @@ export default function SearchProducts() {
         fetchData();
     }, []);
 
-    // Filter the "products" array to only include items that have a "category" property matching the "query" value
+    // Only matches products whose category equals the search query
     const filteredCardData = products.filter(
         (card) => card.category == query
     );
-
 
     return (
         <Container>
