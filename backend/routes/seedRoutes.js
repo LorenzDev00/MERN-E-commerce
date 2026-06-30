@@ -3,16 +3,13 @@ import Product from '../models/productModel.js';
 import data from '../data.js';
 import User from '../models/userModel.js';
 
+// Dev-only route to reset the database with the static seed data from data.js
 const seedRouter = express.Router();
 
-
 seedRouter.get('/', async (req,res) => {
-
-    // Create products
     await Product.deleteMany({});
     const createdProducts = await Product.insertMany(data.products);
 
-    // Create users 
     await User.deleteMany({});  
     const createdUsers = await User.insertMany(data.users);
 
