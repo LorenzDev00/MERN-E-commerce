@@ -7,35 +7,31 @@ import CheckOutSteps from "../components/CheckOutSteps";
 import { Store } from './Store';
 import { useNavigate } from "react-router-dom";
 
-
+// Checkout step 3: choose and persist the payment method
 export default function PaymentMethodScreen() {
 
     const navigate = useNavigate();
 
-    // Importing the useContext hook from React to use the global store and its dispatch function
     const { state, dispatch: ctxDispatch } = useContext(Store);
 
-    // Extracting the shipping address and payment method from the global state
     const {
         cart: { shippingAddress, paymentMethod },
     } = state;
 
-    // Initializing the paymentMethodName state with the value of the paymentMethod from the global state or 'PayPal' if not set
     const [paymentMethodName, setPaymentMethod] = useState(paymentMethod || 'PayPal');
 
-    // Using useEffect hook to check if the shipping address is set, if not redirecting the user to the shipping page
+    // Redirect to shipping step if no shipping address has been set yet
     useEffect(() => {
         if (!shippingAddress.address) {
             navigate('/shipping');
         }
     }, [shippingAddress, navigate]);
 
-    // Handling the change event of the payment method selection and updating the paymentMethodName state accordingly
     const handlePaymentMethodChange = (e) => {
         setPaymentMethod(e.target.value);
     };
 
-    // Handling the submission of the payment method form, dispatching the SAVE_PAYMENT_METHOD action to the global store, saving the payment method to local storage and redirecting the user to the place order page
+    // Save the selected payment method and proceed to order placement
     const submitHandler = (e) => {
         e.preventDefault();
         ctxDispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethodName });
