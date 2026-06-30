@@ -5,36 +5,32 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from './Store';
 import CheckOutSteps from '../components/CheckOutSteps';
 
-
+// Checkout step 2: collects and persists the shipping address
 export default function ShippingAddressScreen() {
-    // Import the 'useNavigate' and 'useContext' hooks from the React Router and React libraries, respectively.
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
 
-    // Destructure the user's shipping information from the global state.
     const {
         userInfo,
         cart: { shippingAddress },
     } = state;
 
-    // Use the 'useState' hook to set the initial state of the component's shipping information fields.
     const [fullName, setFullName] = useState(shippingAddress.fullName || ' ');
     const [address, setAddress] = useState(shippingAddress.address || ' ');
     const [city, setCity] = useState(shippingAddress.city || ' ');
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || ' ');
     const [country, setCountry] = useState(shippingAddress.country || ' ');
 
-    // Use the 'useEffect' hook to redirect the user to the sign-in page if they are not signed in.
+    // Require sign-in before allowing checkout
     useEffect(() => {
         if (!userInfo) {
             navigate('/signin?redirect=/shipping');
         }
     }, [userInfo, navigate])
 
-    // Define a function that handles the submission of the shipping information form.
+    // Persist the shipping address in global state and localStorage, then proceed to payment
     const submitHandler = (e) => {
         e.preventDefault();
-        // Use the 'dispatch' function from the context to save the user's shipping information to the global state.
         ctxDispatch({
             type: 'SAVE_SHIPPING_ADDRESS',
             payload: {
@@ -46,7 +42,6 @@ export default function ShippingAddressScreen() {
             },
         });
 
-        // Use the 'localStorage' API to save the user's shipping information to the browser's local storage.
         localStorage.setItem(
             'shippingAddress',
             JSON.stringify({
@@ -58,7 +53,6 @@ export default function ShippingAddressScreen() {
             })
         );
 
-        // Use the 'navigate' function to redirect the user to the payment page.
         navigate('/payment');
     };
 
