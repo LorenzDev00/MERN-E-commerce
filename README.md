@@ -20,6 +20,10 @@ It was designed to simulate a realistic e-commerce experience while focusing on 
 - Order-related backend logic
 - Responsive interface built with React Bootstrap
 
+## Application Architecture
+
+![BuzzPit Architecture](docs/buzzpit-sitemap.svg)
+
 ## Technologies Used
 
 ### Frontend
